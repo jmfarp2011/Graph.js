@@ -17,5 +17,6 @@ img.mugshot {height: 75px; float: left;display:inline-block; max-width:75px;}
   stroke-width: 1.5px;
 }
 .graph_dashboard { text-transform: capitalize; }
-#graph_component_d3_tree_div {height: 500px; display: none;}
+#graph_component_d3_tree_div {height: 300px; display: none;}
 #graph_component_d3_tree {border: 4px solid #333;}
+#graph_component_base {background-color: #33f;}
