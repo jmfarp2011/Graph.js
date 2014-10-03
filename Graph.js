@@ -421,14 +421,38 @@ Graph['Database'] = function(options){
 
 
 Graph['Dashboard'] = function(options){
+  var self = this;
   var $container = options.container || null;
-  var layout = options.layout || null;
+  var layouts = {};
+  layouts['default'] = {};
+  layouts.default['filterData'] = {};
+  layouts.default['layout'] = options.layout || null;
   var db = options.database || null;
   
   $container.addClass('graph_dashboard');
   var _components = [],
       _entity = {off:function(){}},
       _events = [];
+      
+  var _configureLayout = function(name){
+    var layout = layouts[name].layout;
+    for (var i = 0, ilen = layout.rows.length; i < ilen; i++){
+      for (var j = 0, jlen = layout.rows[i].cols.length; j < jlen; j++)
+        self.register(layout.rows[i].cols[j].component);
+      $container.append('<br/>');
+    }
+  };
+      
+  this.clear = function(){
+    $container.text('');
+  };
+  
+  this.addLayout = function(name, filterData, layout){
+    layouts[name] = {
+      filterData: filterData,
+      layout: layout
+    };
+  }
   
   this.bind = function(obj){
     //check obj type
@@ -442,6 +466,25 @@ Graph['Dashboard'] = function(options){
     
     //clear container
     $container.html('');
+
+    //reconfigure layout
+    _components = [];
+    var layout = 'default';
+    for (var l in layouts){
+      var match = false;
+      for (var i = 0, keys = Object.keys(layouts[l].filterData), len = keys.length; i < len; i++){
+        if (layouts[l].filterData[keys[i]] !== obj[keys[i]]){
+          match = false;
+          break;
+        }
+        match = true;
+      }
+      if (!match) continue;
+      
+      layout = l;
+      break;
+    }
+    _configureLayout(layout);
     
     //(re)render components
     for (var i = 0; i < _components.length; i++){
@@ -468,11 +511,7 @@ Graph['Dashboard'] = function(options){
     }
   };
   
-  for (var i = 0, ilen = layout.rows.length; i < ilen; i++){
-    for (var j = 0, jlen = layout.rows[i].cols.length; j < jlen; j++)
-      this.register(layout.rows[i].cols[j].component);
-    $container.append('<br/>');
-  }
+  _configureLayout('default');
 };
 
 Graph['Component'] = {
