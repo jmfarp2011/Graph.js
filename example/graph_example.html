@@ -3,13 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <title>Graph Framework Example</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="graph_example.css" type="text/css" media="all" />
 </head>
 <body>
-  <div id="main"><table id="items"></table></div>
+  <div class="page-header"></div>
+  
+  <div class="container">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Graph.js Example</h3>
+      </div>
+      <div class="panel-body" id="main">
+      </div>
+    </div>
+  </div>
 
   <script src='http://code.jquery.com/jquery-1.11.1.min.js'></script>
-  <!--script src='http://rawgit.com/jmfarp2011/GraphDBjs/master/GraphDatabase.js'></script-->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
   <script src='../Graph.js'></script>
   <script src='http://d3js.org/d3.v3.min.js'></script>
   <script src='http://cdnjs.cloudflare.com/ajax/libs/ICanHaz.js/0.10.3/ICanHaz.min.js'></script>

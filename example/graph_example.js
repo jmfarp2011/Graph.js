@@ -15,11 +15,15 @@ var startData = {
 var testDB = new Graph.Database({cache: 'testData', datasource: startData}); 
 var dashboard = new Graph.Dashboard({database: testDB, container: $('#main'), layout: {
   rows: [{
+    class: 'row',
     cols: [{
-      span: 4,
+      class: 'col-md-12 col-s-12',
       component: d3_tree
-    },{
-      span: 8,
+    }]
+  },{
+    class: 'row',
+    cols: [{
+      class: 'col-md-8 col-s-12',
       component: person_template
     }]
   }]
@@ -27,11 +31,15 @@ var dashboard = new Graph.Dashboard({database: testDB, container: $('#main'), la
 dashboard.bind(testDB.query().filter({name: 'Tom' }).first());
 dashboard.addLayout('place', {type: 'place'}, {
   rows: [{
+    class: 'row',
     cols: [{
-      span: 4,
+      class: 'col-md-12 col-s-12',
       component: d3_tree
-    },{
-      span: 8,
+    }]
+  },{
+    class: 'row',
+    cols: [{
+      class: 'col-md-8 col-s-12',
       component: Graph.Component.extend({})
     }]
   }]

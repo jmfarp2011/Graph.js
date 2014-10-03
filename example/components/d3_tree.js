@@ -4,7 +4,7 @@ var d3_tree = Graph.Component.extend({
     
     var $output = $('<div class="graph_component" id="graph_component_d3_tree"/>');
     $('<div id="graph_component_d3_tree_div"/>').append(this.buildTree(obj)).appendTo($output);
-    $output.append('<div>Graph</div>');
+    $output.append('<div id="graph_component_d3_tree_driver">Graph</div>');
     $output.on('mouseover', function(){$('#graph_component_d3_tree_div').stop().slideDown('slow')});
     $output.on('mouseleave', function(){$('#graph_component_d3_tree_div').stop().slideUp('slow')});
     return $output;

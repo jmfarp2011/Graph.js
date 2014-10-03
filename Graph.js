@@ -437,14 +437,12 @@ Graph['Dashboard'] = function(options){
   var _configureLayout = function(name){
     var layout = layouts[name].layout;
     for (var i = 0, ilen = layout.rows.length; i < ilen; i++){
-      for (var j = 0, jlen = layout.rows[i].cols.length; j < jlen; j++)
+      var $row = $('<div class="' + layout.rows[i].class + '" />').appendTo($container);
+      for (var j = 0, jlen = layout.rows[i].cols.length; j < jlen; j++){
+        var $col = $('<div class="' + layout.rows[i].cols[j].class + '" id="' + layout.rows[i].cols[j].component.name + '" />').appendTo($row);
         self.register(layout.rows[i].cols[j].component);
-      $container.append('<br/>');
+      }
     }
-  };
-      
-  this.clear = function(){
-    $container.text('');
   };
   
   this.addLayout = function(name, filterData, layout){
@@ -488,7 +486,7 @@ Graph['Dashboard'] = function(options){
     
     //(re)render components
     for (var i = 0; i < _components.length; i++){
-      _components[i]['render'] && $container.append(_components[i].render(_entity));
+      _components[i]['render'] && $('#' + _components[i].name).html(_components[i].render(_entity));
     }
   };
   
