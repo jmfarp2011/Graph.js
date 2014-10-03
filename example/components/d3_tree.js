@@ -12,7 +12,7 @@ var d3_tree = Graph.Component.extend({
   events: {
       onaddedge: function(data){ 
         $('#d3_tree_svg').detach();
-        $('#graph_component_d3_tree').append(this.buildTree(obj));
+        $('#graph_component_d3_tree_div').append(this.buildTree(data.entity));
       }
   },
   buildTree: function(obj){
@@ -55,7 +55,7 @@ var d3_tree = Graph.Component.extend({
       update(root);
     }
   
-    var edges = obj.graph({method: 'DFS'});
+    var edges = obj.graph({method: 'BFS'});
     for (var i = 0; i < edges.length; i++){
       edges[i]['children'] = edges[i].edges;
     }

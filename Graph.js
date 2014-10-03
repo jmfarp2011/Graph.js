@@ -309,9 +309,72 @@ Graph['Entity'] = function(entity, database){
           rel: edge.rel,
           type: edge.type,
           cid: edge.entity.cid,
-          edges: []});
+          edges: []
+        });
         edges[count].edges = edge.entity.graph({method: 'DFS', read: read});
         count++;
+      }
+    }
+    return edges;
+  };
+  
+  var _bfs = function(self, controller){
+    //var queue = [],
+      //visited = [self], //mark self visited
+      //edges = [];
+    var edges = [],
+      queue = [{entity: self, edges: edges}], //queue self
+      visited = [];
+      
+      
+    
+    // //queue edges
+    // for (var i = 0, len = self.edges().length; i < len; i++){
+    //   var edge = i === 0 ? self.edges().first() : self.edges().next();
+    //   var eedges = [];
+    //   edges.push({
+    //     name: edge.entity.name,
+    //     rel: edge.rel,
+    //     type: edge.type,
+    //     cid: edge.entity.cid,
+    //     edges: eedges
+    //   });
+    //   queue.push({
+    //     entity: edge.entity,
+    //     edges: eedges
+    //   });
+      
+    // }
+    
+    function isQueued(entity){
+      for (var e = 0, l = queue.length; e < l; e++){
+        if (queue[e].entity === entity) return true;
+      }
+      return false;
+    }
+    
+    //until the queue is empty
+    while(queue.length > 0){
+      var visiting = queue.shift(); //visit queue in order pushed
+      visited.push(visiting.entity); //mark visiting visited
+      
+      //queue visiting edges, if not already queued or visited
+      for (var i = 0, len = visiting.entity.edges().length; i < len; i++){
+        var vedge = i === 0 ? visiting.entity.edges().first() : visiting.entity.edges().next();
+        var vedges = [];
+        if (!isQueued(vedge.entity) && visited.indexOf(vedge.entity) === -1){
+          visiting.edges.push({
+            name: vedge.entity.name,
+            rel: vedge.rel,
+            type: vedge.type,
+            cid: vedge.entity.cid,
+            edges: vedges
+          });
+          queue.push({
+            entity: vedge.entity,
+            edges: vedges
+          });
+        }
       }
     }
     return edges;
@@ -323,6 +386,8 @@ Graph['Entity'] = function(entity, database){
     switch(method){
       case 'DFS':
         return _dfs(this, read);
+      case 'BFS':
+        return _bfs(this);
       default:
         throw new Error('Graph method ' + method + ' not supported.');
     }

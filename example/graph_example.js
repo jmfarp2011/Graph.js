@@ -8,7 +8,8 @@ var startData = {
   edges : [
     { source: '6ccf636aa68475c9711fe80cc6595339ab5b093c', target: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', rel: "lives at"},
     { source: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', target: '6ccf636aa68475c9711fe80cc6595339ab5b093c', rel: "residence of"},
-    { source: '23a8f91a975089e7ccd2229674a6dcad51fbd42f', target: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', rel: "painted"}
+    { source: '23a8f91a975089e7ccd2229674a6dcad51fbd42f', target: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', rel: "painted"},
+    { source: '6ccf636aa68475c9711fe80cc6595339ab5b093c', target: '23a8f91a975089e7ccd2229674a6dcad51fbd42f', rel: 'knows'}  
 ]};
 
 //test construtor 
@@ -25,6 +26,9 @@ var dashboard = new Graph.Dashboard({database: testDB, container: $('#main'), la
     cols: [{
       class: 'col-md-8 col-s-12',
       component: person_template
+    },{
+      class: 'col-md-4 col-s-12',
+      component: friendslist
     }]
   }]
 }});
