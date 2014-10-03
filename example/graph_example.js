@@ -25,3 +25,14 @@ var dashboard = new Graph.Dashboard({database: testDB, container: $('#main'), la
   }]
 }});
 dashboard.bind(testDB.query().filter({name: 'Tom' }).first());
+dashboard.addLayout('place', {type: 'place'}, {
+  rows: [{
+    cols: [{
+      span: 4,
+      component: d3_tree
+    },{
+      span: 8,
+      component: Graph.Component.extend({})
+    }]
+  }]
+});
