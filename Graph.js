@@ -318,33 +318,10 @@ Graph['Entity'] = function(entity, database){
     return edges;
   };
   
-  var _bfs = function(self, controller){
-    //var queue = [],
-      //visited = [self], //mark self visited
-      //edges = [];
+  var _bfs = function(self){
     var edges = [],
       queue = [{entity: self, edges: edges}], //queue self
       visited = [];
-      
-      
-    
-    // //queue edges
-    // for (var i = 0, len = self.edges().length; i < len; i++){
-    //   var edge = i === 0 ? self.edges().first() : self.edges().next();
-    //   var eedges = [];
-    //   edges.push({
-    //     name: edge.entity.name,
-    //     rel: edge.rel,
-    //     type: edge.type,
-    //     cid: edge.entity.cid,
-    //     edges: eedges
-    //   });
-    //   queue.push({
-    //     entity: edge.entity,
-    //     edges: eedges
-    //   });
-      
-    // }
     
     function isQueued(entity){
       for (var e = 0, l = queue.length; e < l; e++){
@@ -381,8 +358,8 @@ Graph['Entity'] = function(entity, database){
   };
   
   this.graph = function(options){
-    var method = options.method;
-    var read = options.read;
+    var method = options.method,
+      read = options.read;
     switch(method){
       case 'DFS':
         return _dfs(this, read);
@@ -426,7 +403,7 @@ Graph['Database'] = function(options){
   };
   
   this.remove = function(cid){
-    _entities.filter({cid: cid}).first().delete();
+    _entities.remove(cid);
   };
   
   /*
@@ -461,10 +438,10 @@ Graph['Database'] = function(options){
   */
   this.on = function(event, callback, cid){
     if (cid)
-      _entities.filter({uid: cid}).first().on('change', callback);
+      _entities.filter({uid: cid}).first().on(event, callback);
     else {
       for (var i = 0, len = _entities.length; i < len; i++)
-        i = 0 ? _entities.first().on('change', callback) : _entities.next().on('change', callback);
+        i = 0 ? _entities.first().on(event, callback) : _entities.next().on(event, callback);
     }
   };
   
@@ -473,10 +450,10 @@ Graph['Database'] = function(options){
   */
   this.off = function(event, cid){
     if (cid)
-      _entities.filter({uid: cid}).first().off('change');
+      _entities.filter({uid: cid}).first().off(event);
     else {
       for (var i = 0, len = _entities.length; i < len; i++)
-        i = 0 ? _entities.first().off('change') : _entities.next().off('change');
+        i = 0 ? _entities.first().off(event) : _entities.next().off(event);
     }
   };
 };
