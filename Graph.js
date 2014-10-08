@@ -172,7 +172,7 @@ Graph['Collection'] = function(_parent, items){
   };
   
   this.spawn = function(){
-    return new Graph.Collection(_parent, _data);
+    return new Graph.Collection(_parent, _data.slice());
   };
   
   this.filter = function(filters, exclude){
@@ -203,6 +203,7 @@ Graph['Collection'] = function(_parent, items){
       return 0;
     }
     _data.sort(compare);
+    return this;
   };
   
   var _currentItem = -1;
