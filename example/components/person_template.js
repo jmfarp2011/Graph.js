@@ -13,8 +13,10 @@ var person_template = Graph.Component.extend({
     }
     return _$output; 
   },
-  update: function(changes){
-    for (var i = 0, len = changes.length; i < len; i++)
-      $('span#graph_component_dude_gen_' + changes[i].property).text(changes[i].newValue);
+  events: {
+    onchange: function(changes){
+      for (var i = 0, len = changes.length; i < len; i++)
+        $('span#graph_component_dude_gen_' + changes[i].property).text(changes[i].newValue); 
+    }
   }
 });
