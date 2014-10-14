@@ -1,0 +1,26 @@
+{
+  "name": "graph.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jmfarp2011/Graph.js",
+  "authors": [
+    "jmfarp2011 <jamesmeador1983@gmail.com>"
+  ],
+  "description": "Graph.js is an MVC-like framework for building web applications using the graph data model",
+  "main": "Graph.js",
+  "keywords": [
+    "MVC",
+    "graph",
+    "framework"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.1"
+  }
+}
