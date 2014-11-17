@@ -192,7 +192,10 @@ Graph['Collection'] = function(_parent, items){
         filterData = [];
     for (var i = 0, len = keys.length; i < len; i++){
       var filter = keys[i].split('__');
-      filterData.push({key: filter[0], op: filter[1]||'is', value: filters[keys[i]]});
+      if (filter.length < 2)
+        filter.push('is');
+      var op = filter.pop();
+      filterData.push({key: filter, op: op, value: filters[keys[i]]});
     }
     for (var i = 0, len = filterData.length; i < len; i++){
       for (var j = 0; j < data.length; j++){
