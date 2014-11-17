@@ -177,6 +177,14 @@ Graph['Collection'] = function(_parent, items){
     return new Graph.Collection(_parent, _data.slice());
   };
   
+  var _keysFromLevels = function(node, levels){
+    if (levels.length > 1){
+      return _keysFromLevels(node[levels[0]], levels.slice(1));
+    }else{
+      return node[levels[0]];
+    }
+  };
+  
   this.filter = function(filters, exclude){
     exclude = !!exclude;
     var keys = Object.keys(filters),
@@ -189,15 +197,18 @@ Graph['Collection'] = function(_parent, items){
     for (var i = 0, len = filterData.length; i < len; i++){
       for (var j = 0; j < data.length; j++){
         var filter = filterData[i];
-        data[j][filter.key] && (_ops[filter.op](data[j][filter.key], filter.value) === exclude) && data.splice(j--,1);
+        _keysFromLevels(data[j], filter.key) && (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude) && data.splice(j--,1);
       }
     }
     return new Graph.Collection(_parent, data);
   };
   
   this.sort = function(key, desc){
-    function compare(a,b) {
+    var levels = key.split('__');
+    function compare(first, second) {
       var ret = !desc ? 1 : -1;
+      var a = _keysFromLevels(first, levels),
+        b = _keysFromLevels(second, levels);
       if (a[key] < b[key])
          return -1*ret;
       if (a[key] > b[key])
