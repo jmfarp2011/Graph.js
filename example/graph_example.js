@@ -49,7 +49,7 @@ var testDB = new Graph.Database({cache: 'testData', datasource: startData, index
       return (x<<n) | (x>>>(32-n));
     };
     /**
-    * Hexadecimal representation of a number. 
+    * Hexadecimal representation of a number.
     * @private
     */
     var _toHexStr = function(n) {
