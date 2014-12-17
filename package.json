@@ -1,0 +1,12 @@
+{
+    "name" : "graph",
+    "version" : "0.0.2",
+    "author" : "James Meador",
+
+    "devDependencies" : {
+        "grunt" :                       "~0.4.0",
+        "grunt-contrib-uglify":         "*",
+        "grunt-contrib-concat":         "*"
+        
+    }
+}
