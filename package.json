@@ -4,9 +4,14 @@
     "author" : "James Meador",
 
     "devDependencies" : {
-        "grunt" :                       "~0.4.0",
-        "grunt-contrib-uglify":         "*",
-        "grunt-contrib-concat":         "*"
+        "grunt" :                               "~0.4.0",
+        "grunt-contrib-uglify":                 "*",
+        "grunt-contrib-concat":                 "*",
+        "grunt-wrap":                           "*",
+        "grunt-contrib-watch":                  "~0.5.3",
+        "grunt-jsbeautifier":                   "~0.2.6",
+        "grunt-contrib-jshint":                 "~0.8.0",
+        "grunt-contrib-jasmine":                "0.4.2"
         
     }
 }

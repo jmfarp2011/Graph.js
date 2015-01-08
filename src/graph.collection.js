@@ -8,13 +8,13 @@
 Graph['Collection'] = function(_parent, items){
   var _indexes = {},
       _data = [],
-      self = this,
+      /*self = this,*/
       _database = _parent instanceof Graph.Database ? _parent : _parent.db();
   Object.defineProperty(this, 'length', {
-    get: function(){return _data.length}
+    get: function(){ return _data.length; }
   });
   Object.defineProperty(this, 'data', {
-    get: function(){return _data.slice()}
+    get: function(){ return _data.slice(); }
   });
   
   var _index = function(obj){
@@ -23,11 +23,11 @@ Graph['Collection'] = function(_parent, items){
   };
   
   var _ops = {
-    'is': function(a,b){ return a === b },
-    'gt': function(a,b){ return a > b },
-    'lt': function(a,b){ return a < b },
-    'gte': function(a,b){ return a >= b },
-    'lte': function(a,b){ return a <= b },
+    'is': function(a,b){ return a === b; },
+    'gt': function(a,b){ return a > b; },
+    'lt': function(a,b){ return a < b; },
+    'gte': function(a,b){ return a >= b; },
+    'lte': function(a,b){ return a <= b; },
     'regex': function(a, b){return a.search(b) >= 0; }
   };
   
@@ -68,18 +68,21 @@ Graph['Collection'] = function(_parent, items){
     exclude = !!exclude;
     var keys = Object.keys(filters),
         data = _data.slice(),
-        filterData = [];
+        filterData = [],
+        filter;
     for (var i = 0, len = keys.length; i < len; i++){
-      var filter = keys[i].split('__');
+      filter = keys[i].split('__');
       if (filter.length < 2)
         filter.push('is');
       var op = filter.pop();
       filterData.push({key: filter, op: op, value: filters[keys[i]]});
     }
-    for (var i = 0, len = filterData.length; i < len; i++){
+    len = filterData.length;
+    for (i = 0; i < len; i++){
       for (var j = 0; j < data.length; j++){
-        var filter = filterData[i];
-        _keysFromLevels(data[j], filter.key) && (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude) && data.splice(j--,1);
+        filter = filterData[i];
+        if(_keysFromLevels(data[j], filter.key) && (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude))
+            data.splice(j--,1);
       }
     }
     return new Graph.Collection(_parent, data);

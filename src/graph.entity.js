@@ -35,7 +35,8 @@ Graph['Entity'] = function(entity, database){
         this[k] = obj[k];
       }
     }
-    _listeners['change'] && _listeners['change'].call(this, 'change', changes);
+    if (!!_listeners['change'])
+        _listeners['change'].call(this, 'change', changes);
   };
   
   this.save = function(){
@@ -62,7 +63,8 @@ Graph['Entity'] = function(entity, database){
   this.link = function(edge){
     var gEdge = new Graph.Edge(edge);
     _edges.add(gEdge);
-    _listeners['addedge'] && _listeners['addedge'].call(this, 'addedge', {entity: this, edge: gEdge});
+    if (!!_listeners['addedge'])
+        _listeners['addedge'].call(this, 'addedge', {entity: this, edge: gEdge});
   };
   
   var _dfs = function (self, read){

@@ -3,7 +3,8 @@ Graph['Component'] = {
   render: function(obj){ 
     var _$output = $('<div class="graph_component" id="graph_component_' + this.name + '"/>');
     for (var i in obj.entity()){
-      obj.hasOwnProperty(i) && typeof obj[i] !== 'function' && _$output.append(i+': <span class="graph_component_' + this.name + '" id="graph_component_' + this.name + '_' + i + '">' + obj[i] + ' </span><br/>');
+      if (obj.hasOwnProperty(i) && typeof obj[i] !== 'function')
+          _$output.append(i+': <span class="graph_component_' + this.name + '" id="graph_component_' + this.name + '_' + i + '">' + obj[i] + ' </span><br/>');
     }
     return _$output;
   },
@@ -17,7 +18,7 @@ Graph['Component'] = {
     for (var i in this){
       obj[i] = options[i] || this[i];
     }
-    for (var i in options){
+    for (i in options){
       if (!obj[i]) obj[i] = options[i];
     }
     return obj;

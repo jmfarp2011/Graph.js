@@ -7,7 +7,7 @@
 */
 Graph['Database'] = function(options){
   var _datasource = options && options['datasource'] ? options.datasource : {entities:[], edges:[]};
-  var _cacheName = options && options['cacheName'] ? options.cacheName : 'graphDB';
+  //var _cacheName = options && options['cacheName'] ? options.cacheName : 'graphDB';
   // allows for custom index generation
   this.indexGenerator = options ? options.indexGenerator : undefined;
   this.index = function(obj){
@@ -18,7 +18,7 @@ Graph['Database'] = function(options){
         return obj[this.indexGenerator];
     else throw new Error('Unable to index the supplied Object.');
     
-  }
+  };
   var _entities = new Graph.Collection(this);
     
   /*
@@ -61,7 +61,7 @@ Graph['Database'] = function(options){
     /*
     *  Parse datasource edges
     */
-    for (var i = 0; i < datasource.edges.length; i++){
+    for (i = 0; i < datasource.edges.length; i++){
       this.link(datasource.edges[i].source, datasource.edges[i].target, datasource.edges[i].rel);
     } 
   };
