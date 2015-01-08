@@ -1,0 +1,27 @@
+{
+"globals": {
+"map": true,
+"select": true,
+"ich": false,
+"OpenLayers": false
+},
+"multistr": true,
+"browser": true,
+"jquery": true,
+"curly": false,
+"eqeqeq": true,
+"immed": true,
+"latedef": true,
+"newcap": true,
+"noarg": true,
+"sub": true,
+"undef": true,
+"unused": true,
+"boss": true,
+"eqnull": true,
+"node": true,
+"nonew": true,
+"trailing": true,
+"bitwise": true,
+"indent": 4
+}
