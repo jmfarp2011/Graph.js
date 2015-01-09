@@ -1,4 +1,5 @@
 describe('Graph.js Collection object', function(){
+    //init
     it('should not be null or undefined', function(){
         expect(Graph.Collection).not.toBe(null);
         expect(Graph.Collection).toBeDefined();
@@ -22,28 +23,41 @@ describe('Graph.js Collection object', function(){
         this.testCollection = null;
     });
     
-    it('should allow instantiation', function(){
+    it('should initialize', function(){
         expect(this.testCollection.data).not.toBe(null);
         expect(this.testCollection.data).toBeDefined();
     });
     
-    it('should allow adding items', function(){
+    //values
+    it('should calculate length', function(){
         
     });
     
-    it('should allow removing items', function(){
+    it('should return data as array', function(){
         
     });
     
-    it('should allow filtering items', function(){
+    //methods
+    it('should add items', function(){
         
     });
     
-    it('should allow sorting items', function(){
+    it('should remove item', function(){
         
     });
     
-    it('should allow iterating items', function(){
+    it('should filter items', function(){
         
-    });    
+    });
+    
+    it('should sort items', function(){
+        
+    });
+    
+    it('should iterate items', function(){
+        
+    });
+    
+    //events
+    //None
 });

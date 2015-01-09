@@ -5,7 +5,7 @@ describe('Graph.js Edge object', function(){
     });
     
     var testEdge;
-    it('should be able to be instantiated', function(){
+    it('should initialize', function(){
         testEdge = new Graph.Edge({
             entity: 'test',
             rel: 'test relation',
@@ -14,7 +14,7 @@ describe('Graph.js Edge object', function(){
         expect(testEdge).toBeDefined();
     });
     
-    it('should have entity, rel, and type keys and their vals should match those given', function(){
+    it('should store egde attributes', function(){
         expect(testEdge.entity).toBeDefined();
         expect(testEdge.entity).toBe('test');
         
