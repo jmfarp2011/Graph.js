@@ -1,13 +1,20 @@
 describe('Graph.js Entity object', function(){
     //init
+    it('should not be null or undefined', function(){
+        expect(Graph.Edge).not.toBe(null);
+        expect(Graph.Edge).toBeDefined();
+    });
+    
     it('should initialize', function(){
         
     });
+    
     
     //values
     it('should store entity attributes', function(){
         
     });
+    
     
     //methods
     it('should edit of info', function(){
@@ -29,6 +36,7 @@ describe('Graph.js Entity object', function(){
     it('should return an entity\'s graph', function(){
         
     });
+    
     
     //events
     it('should handle "change" events', function(){

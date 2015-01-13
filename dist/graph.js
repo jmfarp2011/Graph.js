@@ -71,7 +71,6 @@ Graph['Collection'] = function (_parent, items) {
         if (!_exists(obj.cid)) {
             _indexes[_index(obj)] = _data.length;
             _data.push(obj);
-            this.length = _data.length;
         }
     };
 
@@ -131,9 +130,9 @@ Graph['Collection'] = function (_parent, items) {
             var ret = !desc ? 1 : -1;
             var a = _keysFromLevels(first, levels),
                 b = _keysFromLevels(second, levels);
-            if (a[key] < b[key])
+            if (a < b)
                 return -1 * ret;
-            if (a[key] > b[key])
+            if (a > b)
                 return 1 * ret;
             return 0;
         }
