@@ -79,7 +79,7 @@ module.exports = function (grunt) {
                 options: {
                     summary: true,
                     helpers: "bower_components/graph/Graph.js",
-                    specs: 'test/modules/*.spec.js',
+                    specs: 'test/modules/**.spec.js',
                     keepRunner: true
                 }
             }

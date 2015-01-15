@@ -67,11 +67,18 @@ Graph['Collection'] = function (_parent, items) {
         return cid in _indexes;
     };
 
-    this.add = function (obj) {
+    this.add = function (obj, overwrite) {
+        _index(obj);
         if (!_exists(obj.cid)) {
             _indexes[_index(obj)] = _data.length;
             _data.push(obj);
+            return obj;
+        } else if (!!overwrite) {
+            var entity = _data[_indexes[obj.cid]];
+            entity.edit(obj instanceof Graph.Entity ? obj.entity() : obj);
+            return entity;
         }
+        return false;
     };
 
     this.remove = function (cid) {
@@ -193,6 +200,15 @@ Graph['Entity'] = function (entity, database) {
 
     var _edges = new Graph.Collection(this);
 
+    this.entity = function () {
+        var obj = {};
+        for (var k in this) {
+            if (this.hasOwnProperty(k) && typeof this[k] !== 'function')
+                obj[k] = this[k];
+        }
+        return obj;
+    };
+
     this.edit = function (obj) {
         var changes = [];
         for (var k in obj) {
@@ -207,6 +223,7 @@ Graph['Entity'] = function (entity, database) {
         }
         if (!!_listeners['change'])
             _listeners['change'].call(this, 'change', changes);
+        return this;
     };
 
     this.save = function () {
@@ -219,15 +236,6 @@ Graph['Entity'] = function (entity, database) {
 
     this.edges = function () {
         return _edges;
-    };
-
-    this.entity = function () {
-        var obj = {};
-        for (var k in this) {
-            if (this.hasOwnProperty(k) && typeof this[k] !== 'function')
-                obj[k] = this[k];
-        }
-        return obj;
     };
 
     this.link = function (edge) {
@@ -353,7 +361,7 @@ Graph['Database'] = function (options) {
      * CRUD methods
      */
     this.add = function (obj) {
-        _entities.add(new Graph.Entity(obj, this));
+        return _entities.add(new Graph.Entity(obj, this));
     };
 
     this.query = function () {
@@ -361,9 +369,10 @@ Graph['Database'] = function (options) {
     };
 
     this.update = function (cid, obj) {
-        _entities.filter({
+        var e = _entities.filter({
             cid: cid
-        }).first().edit(obj);
+        }).first();
+        e.edit(obj);
     };
 
     this.remove = function (cid) {

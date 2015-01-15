@@ -27,6 +27,15 @@ Graph['Entity'] = function(entity, database){
   
   var _edges = new Graph.Collection(this);
   
+  this.entity = function(){
+    var obj = {};
+    for (var k in this){
+      if (this.hasOwnProperty(k) && typeof this[k] !== 'function')
+        obj[k] = this[k];
+    }
+    return obj;
+  };
+  
   this.edit = function(obj){
     var changes = [];
     for (var k in obj){
@@ -37,6 +46,7 @@ Graph['Entity'] = function(entity, database){
     }
     if (!!_listeners['change'])
         _listeners['change'].call(this, 'change', changes);
+    return this;
   };
   
   this.save = function(){
@@ -49,15 +59,6 @@ Graph['Entity'] = function(entity, database){
   
   this.edges = function(){
     return _edges;
-  };
-  
-  this.entity = function(){
-    var obj = {};
-    for (var k in this){
-      if (this.hasOwnProperty(k) && typeof this[k] !== 'function')
-        obj[k] = this[k];
-    }
-    return obj;
   };
   
   this.link = function(edge){

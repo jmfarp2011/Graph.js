@@ -1,5 +1,26 @@
 describe('Graph.js Entity object', function(){
     //init
+    it('should not be null or undefined', function(){
+        expect(Graph.Dataabase).not.toBe(null);
+        expect(Graph.Database).toBeDefined();
+    });
+
+    beforeEach(function(){
+        this.testDatabase = new Graph.Database({
+            datasource: {
+                entities: [],
+                edges: []
+            },
+            indexGenerator: function(obj){
+                return obj.id;
+            }
+        });
+    });
+
+    afterEach(function(){
+        this.testDatabase = null;
+    });
+    
     it('should initialize', function(){
         
     });
