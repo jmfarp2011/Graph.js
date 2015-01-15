@@ -68,6 +68,14 @@ describe('Graph.js Entity object', function(){
             type: 'in'
         });
         expect(this.testEntity.edges().length).toBe(1);
+                
+        var Sam = new Graph.Entity({cid: 3, name: 'Sam'}, this.testDatabase);
+        this.testEntity.link({
+            entity: Sam,
+            rel: 'friend',
+            type: 'in'
+        });
+        expect(this.testEntity.edges().length).toBe(2);
     });
 
     it('should return an entity\'s graph', function(){        

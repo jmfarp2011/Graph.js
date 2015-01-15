@@ -18,8 +18,13 @@ Graph['Collection'] = function(_parent, items){
     });
 
     var _index = function(obj){
-        obj.cid = obj.id || obj.cid ||_database.indexGenerator(obj);
-        return obj.cid;
+        if (obj instanceof Graph.Entity){
+            obj.cid = obj.id || obj.cid || _database.index(obj);
+            return obj.cid;
+        }else if (obj instanceof Graph.Edge)
+            return obj.entity.cid + obj.rel + obj.type;
+        else
+            throw new Error('Graph.Collection can only store instances of Graph.Entity and Graph.Edge.');
     };
 
     var _ops = {

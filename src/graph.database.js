@@ -2,8 +2,9 @@
 * Database - GraphDatabase object to handles client-server communication, CRUD operations on the datasource, and local caching via localStorage
 *
 * @Params:
-*   name: the localStorage key name
+*   cacheName: the localStorage key name
 *   datasource (optional): a initial datasource
+*   indexGenerator: a function or key name to use to generate indexes
 */
 Graph['Database'] = function(options){
     var _datasource = options && options['datasource'] ? options.datasource : {entities:[], edges:[]};
@@ -12,10 +13,14 @@ Graph['Database'] = function(options){
     this.indexGenerator = options ? options.indexGenerator : undefined;
     this.index = function(obj){
         if (!this.indexGenerator) throw new Error('No index generator method exists on database.');
-        if (typeof this.indexGenerator === 'function')
-            return this.indexGenerator(obj);
-        else if (typeof this.indexGenerator === 'string')
-            return obj[this.indexGenerator];
+        if (typeof this.indexGenerator === 'function'){
+            obj.cid = this.indexGenerator(obj);
+            return obj.cid;
+        }
+        else if (typeof this.indexGenerator === 'string'){
+            obj.cid = obj[this.indexGenerator];
+            return obj.cid;
+        }
         else throw new Error('Unable to index the supplied Object.');
 
     };
@@ -47,8 +52,12 @@ Graph['Database'] = function(options){
     this.link = function(sid, tid, rel){
         var source = _entities.filter({cid: sid}).first();
         var target = _entities.filter({cid: tid}).first();
-        source.link({entity: target, rel: rel, type: 'out'});
-        target.link({entity: source, rel: rel, type: 'in'});    
+console.info(source.name + ' : ' + target.name);
+        if (!!source && !!target){
+            source.link({entity: target, rel: rel, type: 'out'});
+            target.link({entity: source, rel: rel, type: 'in'});
+        }else
+            throw new Error('Unable to locate entity ' + !source ? sid : tid + ' in database.');
     };
 
     this.ingest = function(datasource){

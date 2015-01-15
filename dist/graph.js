@@ -38,8 +38,13 @@ Graph['Collection'] = function (_parent, items) {
     });
 
     var _index = function (obj) {
-        obj.cid = obj.id || obj.cid || _database.indexGenerator(obj);
-        return obj.cid;
+        if (obj instanceof Graph.Entity) {
+            obj.cid = obj.id || obj.cid || _database.index(obj);
+            return obj.cid;
+        } else if (obj instanceof Graph.Edge)
+            return obj.entity.cid + obj.rel + obj.type;
+        else
+            throw new Error('Graph.Collection can only store instances of Graph.Entity and Graph.Edge.');
     };
 
     var _ops = {
@@ -335,8 +340,9 @@ Graph['Entity'] = function (entity, database) {
  * Database - GraphDatabase object to handles client-server communication, CRUD operations on the datasource, and local caching via localStorage
  *
  * @Params:
- *   name: the localStorage key name
+ *   cacheName: the localStorage key name
  *   datasource (optional): a initial datasource
+ *   indexGenerator: a function or key name to use to generate indexes
  */
 Graph['Database'] = function (options) {
     var _datasource = options && options['datasource'] ? options.datasource : {
@@ -348,11 +354,13 @@ Graph['Database'] = function (options) {
     this.indexGenerator = options ? options.indexGenerator : undefined;
     this.index = function (obj) {
         if (!this.indexGenerator) throw new Error('No index generator method exists on database.');
-        if (typeof this.indexGenerator === 'function')
-            return this.indexGenerator(obj);
-        else if (typeof this.indexGenerator === 'string')
-            return obj[this.indexGenerator];
-        else throw new Error('Unable to index the supplied Object.');
+        if (typeof this.indexGenerator === 'function') {
+            obj.cid = this.indexGenerator(obj);
+            return obj.cid;
+        } else if (typeof this.indexGenerator === 'string') {
+            obj.cid = obj[this.indexGenerator];
+            return obj.cid;
+        } else throw new Error('Unable to index the supplied Object.');
 
     };
     var _entities = new Graph.Collection(this);
@@ -389,16 +397,20 @@ Graph['Database'] = function (options) {
         var target = _entities.filter({
             cid: tid
         }).first();
-        source.link({
-            entity: target,
-            rel: rel,
-            type: 'out'
-        });
-        target.link({
-            entity: source,
-            rel: rel,
-            type: 'in'
-        });
+        console.info(source.name + ' : ' + target.name);
+        if (!!source && !!target) {
+            source.link({
+                entity: target,
+                rel: rel,
+                type: 'out'
+            });
+            target.link({
+                entity: source,
+                rel: rel,
+                type: 'in'
+            });
+        } else
+            throw new Error('Unable to locate entity ' + !source ? sid : tid + ' in database.');
     };
 
     this.ingest = function (datasource) {
