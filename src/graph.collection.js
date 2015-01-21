@@ -70,8 +70,10 @@ Graph['Collection'] = function(_parent, items){
     var _keysFromLevels = function(node, levels){
         if (levels.length > 1){
             return _keysFromLevels(node[levels[0]], levels.slice(1));
-        }else{
+        }else if(node.hasOwnProperty(levels[0])){
             return node[levels[0]];
+        }else{
+            return 'nokey';
         }
     };
 
@@ -92,7 +94,11 @@ Graph['Collection'] = function(_parent, items){
         for (i = 0; i < len; i++){
             for (var j = 0; j < data.length; j++){
                 filter = filterData[i];
-                if(_keysFromLevels(data[j], filter.key) && (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude))
+                if((_keysFromLevels(data[j], filter.key)==='nokey') ||
+                    (_keysFromLevels(data[j], filter.key) && 
+                        (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude)
+                    )
+                  )
                     data.splice(j--,1);
             }
         }

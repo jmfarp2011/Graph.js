@@ -55,7 +55,8 @@ describe('Graph.js Collection object', function(){
         });
 
         it('should filter items', function(){
-            expect(this.testCollection.filter({id: 1}).length).toBe(1);
+            expect(this.testCollection.filter({cid: 2}).length).toBe(1);
+            expect(this.testCollection.filter({non: 30}).length).toBe(0);
         });
 
         it('should sort items', function(){

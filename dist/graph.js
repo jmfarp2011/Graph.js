@@ -102,8 +102,10 @@ Graph['Collection'] = function (_parent, items) {
     var _keysFromLevels = function (node, levels) {
         if (levels.length > 1) {
             return _keysFromLevels(node[levels[0]], levels.slice(1));
-        } else {
+        } else if (node.hasOwnProperty(levels[0])) {
             return node[levels[0]];
+        } else {
+            return 'nokey';
         }
     };
 
@@ -128,7 +130,11 @@ Graph['Collection'] = function (_parent, items) {
         for (i = 0; i < len; i++) {
             for (var j = 0; j < data.length; j++) {
                 filter = filterData[i];
-                if (_keysFromLevels(data[j], filter.key) && (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude))
+                if ((_keysFromLevels(data[j], filter.key) === 'nokey') ||
+                    (_keysFromLevels(data[j], filter.key) &&
+                        (_ops[filter.op](_keysFromLevels(data[j], filter.key), filter.value) === exclude)
+                    )
+                )
                     data.splice(j--, 1);
             }
         }
@@ -351,16 +357,17 @@ Graph['Database'] = function (options) {
     };
     //var _cacheName = options && options['cacheName'] ? options.cacheName : 'graphDB';
     // allows for custom index generation
-    this.indexGenerator = options ? options.indexGenerator : undefined;
+    var _index = options && options.index ? options.index : 'id';
     this.index = function (obj) {
-        if (!this.indexGenerator) throw new Error('No index generator method exists on database.');
-        if (typeof this.indexGenerator === 'function') {
-            obj.cid = this.indexGenerator(obj);
+        if (typeof _index === 'function') {
+            obj.cid = _index(obj);
             return obj.cid;
-        } else if (typeof this.indexGenerator === 'string') {
-            obj.cid = obj[this.indexGenerator];
+        } else if (typeof _index === 'string') {
+            obj.cid = obj[_index];
             return obj.cid;
-        } else throw new Error('Unable to index the supplied Object.');
+        } else {
+            throw new Error('Unable to index the supplied Object.');
+        }
 
     };
     var _entities = new Graph.Collection(this);
@@ -372,8 +379,8 @@ Graph['Database'] = function (options) {
         return _entities.add(new Graph.Entity(obj, this));
     };
 
-    this.query = function () {
-        return _entities.spawn();
+    this.query = function (filters) {
+        return !!filters ? _entities.spawn().filter(filters) : _entities.spawn();
     };
 
     this.update = function (cid, obj) {
@@ -397,7 +404,6 @@ Graph['Database'] = function (options) {
         var target = _entities.filter({
             cid: tid
         }).first();
-        console.info(source.name + ' : ' + target.name);
         if (!!source && !!target) {
             source.link({
                 entity: target,
@@ -409,8 +415,9 @@ Graph['Database'] = function (options) {
                 rel: rel,
                 type: 'in'
             });
-        } else
+        } else {
             throw new Error('Unable to locate entity ' + !source ? sid : tid + ' in database.');
+        }
     };
 
     this.ingest = function (datasource) {

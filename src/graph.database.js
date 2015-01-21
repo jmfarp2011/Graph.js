@@ -10,18 +10,19 @@ Graph['Database'] = function(options){
     var _datasource = options && options['datasource'] ? options.datasource : {entities:[], edges:[]};
     //var _cacheName = options && options['cacheName'] ? options.cacheName : 'graphDB';
     // allows for custom index generation
-    this.indexGenerator = options ? options.indexGenerator : undefined;
+    var _index = options && options.index ? options.index : 'id';
     this.index = function(obj){
-        if (!this.indexGenerator) throw new Error('No index generator method exists on database.');
-        if (typeof this.indexGenerator === 'function'){
-            obj.cid = this.indexGenerator(obj);
+        if (typeof _index === 'function'){
+            obj.cid = _index(obj);
             return obj.cid;
         }
-        else if (typeof this.indexGenerator === 'string'){
-            obj.cid = obj[this.indexGenerator];
+        else if (typeof _index === 'string'){
+            obj.cid = obj[_index];
             return obj.cid;
         }
-        else throw new Error('Unable to index the supplied Object.');
+        else {
+            throw new Error('Unable to index the supplied Object.');
+        }
 
     };
     var _entities = new Graph.Collection(this);
@@ -33,8 +34,8 @@ Graph['Database'] = function(options){
         return _entities.add(new Graph.Entity(obj, this));
     };
 
-    this.query = function(){
-        return _entities.spawn();
+    this.query = function(filters){
+        return !!filters ? _entities.spawn().filter(filters) : _entities.spawn();
     };
 
     this.update = function(cid, obj){
@@ -52,12 +53,12 @@ Graph['Database'] = function(options){
     this.link = function(sid, tid, rel){
         var source = _entities.filter({cid: sid}).first();
         var target = _entities.filter({cid: tid}).first();
-console.info(source.name + ' : ' + target.name);
         if (!!source && !!target){
             source.link({entity: target, rel: rel, type: 'out'});
             target.link({entity: source, rel: rel, type: 'in'});
-        }else
+        }else{
             throw new Error('Unable to locate entity ' + !source ? sid : tid + ' in database.');
+        }
     };
 
     this.ingest = function(datasource){
