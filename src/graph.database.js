@@ -82,11 +82,15 @@ Graph['Database'] = function(options){
   *  Add event listener(s)
   */
     this.on = function(event, callback, cid){
-        if (cid)
-            _entities.filter({uid: cid}).first().on(event, callback);
+        if (!!cid)
+            _entities.filter({cid: cid}).first().on(event, callback);
         else {
-            for (var i = 0, len = _entities.length; i < len; i++)
-                i = 0 ? _entities.first().on(event, callback) : _entities.next().on(event, callback);
+            for (var i = 0, len = _entities.length; i < len; i++){
+                if (i === 0)
+                    _entities.first().on(event, callback);
+                else
+                    _entities.next().on(event, callback);
+            }
         }
     };
 
@@ -95,10 +99,14 @@ Graph['Database'] = function(options){
   */
     this.off = function(event, cid){
         if (cid)
-            _entities.filter({uid: cid}).first().off(event);
+            _entities.filter({cid: cid}).first().off(event);
         else {
-            for (var i = 0, len = _entities.length; i < len; i++)
-                i = 0 ? _entities.first().off(event) : _entities.next().off(event);
+            for (var i = 0, len = _entities.length; i < len; i++){
+                if (i === 0)
+                    _entities.first().off(event);
+                else
+                    _entities.next().off(event);
+            }
         }
     };
 };

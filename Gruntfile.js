@@ -8,7 +8,7 @@ module.exports = function (grunt) {
             },
             dist: {
                 src: [ /*'src/graph.core.js', */ 'src/graph.edge.js', 'src/graph.collection.js', 'src/graph.entity.js', 'src/graph.database.js', 'src/graph.dashboard.js', 'src/graph.component.js'],
-                dest: 'dist/<%= pkg.name %>.js'
+                dest: 'dist/<%= pkg.name %>-<%= pkg.version %>.js'
             }
         },
         uglify: {
