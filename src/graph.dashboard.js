@@ -1,11 +1,20 @@
 Graph['Dashboard'] = function(options){
+  if (!options || (!!options && !options.container)) throw new Error('No container supplied.');
   var self = this;
   var $container = options.container || null;
   var layouts = {};
   layouts['default'] = {};
   layouts.default['filterData'] = {};
-  layouts.default['layout'] = options.layout || null;
-  var db = options.database || null;
+  layouts.default['layout'] = (options && options.layout) ? options.layout : {
+      rows: [{
+          cssClass: '',
+          cols: [{
+              cssClass: '',
+              component: Graph.Component.extend({})
+          }]
+      }]
+  };
+  var db = (options && options.database) ? options.database : null;
   
   $container.addClass('graph_dashboard');
   var _components = [],

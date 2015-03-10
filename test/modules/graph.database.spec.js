@@ -25,6 +25,8 @@ describe('Graph.js Database object', function(){
     afterEach(function(){
         this.emptyDatabase = null;
         this.testDatabase = null;
+        delete this.emptyDatabase;
+        delete this.testDatabase;
     });
 
     describe('initialization', function(){
@@ -139,8 +141,6 @@ describe('Graph.js Database object', function(){
                 tom = this.testDatabase.query({cid: 'personTom'}).first(),
                 bob = this.testDatabase.query({cid: 'personBob'}).first(),
                 moto = this.testDatabase.query({cid: 'thingTom\'s motorcycle'}).first();
-            
-            console.info(moto.name);
 
             this.testDatabase.on('addedge', function(event, data){
                 result = data;
@@ -169,5 +169,18 @@ describe('Graph.js Database object', function(){
             expect(result.edge.entity).toEqual(moto);
 
         });
+    });
+    
+    it('should handle mass data', function(){
+        var name,
+            maxLen = Math.pow(2, 16),
+            maxLen = Math.pow(2, 4);
+        for (var i = 0; i < maxLen; i++){
+            name = 'entity'+ i;
+            this.emptyDatabase.add({
+                id: i,
+                name: name
+            });
+        }
     });
 });

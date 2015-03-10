@@ -30,9 +30,6 @@ module.exports = function (grunt) {
             },
             lib: {
                 src: ['<%= concat.dist.dest %>']
-            },
-            tests: {
-                src: ['<%= jasmine.test.option.specs %>']
             }
         },
         watch: {
@@ -77,10 +74,12 @@ module.exports = function (grunt) {
             test: {
                 src: '<%= concat.dist.dest %>',
                 options: {
-                    summary: true,
-                    helpers: "bower_components/graph/Graph.js",
+                    vendor: [
+                        'node_modules/jasmine-jquery/vendor/jquery/jquery.js',
+                        'node_modules/jasmine-jquery/lib/jasmine-jquery.js'
+                    ],
                     specs: 'test/modules/**.spec.js',
-                    keepRunner: true
+                    summary: true
                 }
             }
         }
