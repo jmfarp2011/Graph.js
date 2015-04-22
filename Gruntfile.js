@@ -82,6 +82,13 @@ module.exports = function (grunt) {
                     summary: true
                 }
             }
+        },
+        karma: {
+            unit: {
+                options: {
+                    files: ['test/**/*.js']
+                }
+            }
         }
     });
 
@@ -92,6 +99,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-jsbeautifier');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
     grunt.registerTask('test', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint', 'jasmine']);

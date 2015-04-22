@@ -7,7 +7,9 @@ Graph.js
 **View/Control:** The framework also controls the display of that data with it's `Graph.Dashboard` view-controler. The `Graph.Dashboard` view-controller controls the rendering and updating a collection of  extensible `Graph.Component` views.
 
 ####ToDo:
-+ Implement Cache via localStorage or indexDB
++ Implement Cache via localStorage or indexDB  
+
+[![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 The Database `Graph.Database`
 ----------
