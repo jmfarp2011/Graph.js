@@ -89,7 +89,13 @@ Graph['Dashboard'] = function(options){
         //(re)render components
         for (i = 0; i < _components.length; i++){
             if (!!_components[i]['render']){
+                if(!!_components[i]['onbeforerender'])
+                    _components[i].onbeforerender(_entity);
+                
                 $('#' + _components[i].name).html(_components[i].render(_entity));
+                
+                if(!!_components[i]['onafterrender'])
+                    _components[i].onafterrender(_entity);
             }
         }
     };
