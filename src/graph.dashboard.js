@@ -88,8 +88,9 @@ Graph['Dashboard'] = function(options){
 
         //(re)render components
         for (i = 0; i < _components.length; i++){
-            if (!!_components[i]['render'])
+            if (!!_components[i]['render']){
                 $('#' + _components[i].name).html(_components[i].render(_entity));
+            }
         }
     };
 
