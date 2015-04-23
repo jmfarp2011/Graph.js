@@ -1,6 +1,6 @@
 {
   "name": "graph",
-  "version": "0.0.2",
+  "version": "apricot",
   "author": "James Meador",
   "devDependencies": {
     "grunt": "~0.4.0",
