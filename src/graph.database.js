@@ -18,11 +18,10 @@ Graph['Database'] = function(options){
         }
         else if (typeof _index === 'string'){
             obj.cid = obj[_index];
-            return obj.cid;
+            if (!!obj.cid)
+                return obj.cid;
         }
-        else {
-            throw new Error('Unable to index the supplied Object.');
-        }
+        throw new Error('Unable to index the supplied Object.');
 
     };
     var _entities = new Graph.Collection(this);

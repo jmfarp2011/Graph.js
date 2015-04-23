@@ -1,0 +1,24 @@
+h3 {margin-bottom: 1px;}
+img.mugshot {height: 75px; float: left;display:inline-block; max-width:75px; margin-right: 2px;}
+.node {
+  cursor: pointer;
+}
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+.node text {
+  font: 10px sans-serif;
+}
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+.graph_dashboard { text-transform: capitalize; }
+.graph_component {overflow: auto;}
+#graph_component_d3_tree_div {height: 300px; display: none;}
+#graph_component_d3_tree {border: 1px solid #333; margin-bottom: 5px;}
+#graph_component_base {border: 2px solid #333; padding: 5px;}
+#graph_component_d3_tree_driver {text-align: center;}
