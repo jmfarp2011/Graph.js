@@ -79,7 +79,8 @@ module.exports = function (grunt) {
                         'node_modules/jasmine-jquery/lib/jasmine-jquery.js'
                     ],
                     specs: 'test/modules/**.spec.js',
-                    summary: true
+                    summary: true,
+                    keepRunner: true
                 }
             }
         },
@@ -101,6 +102,12 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-karma');
 
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
     grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
     grunt.registerTask('test', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint', 'jasmine']);
     grunt.registerTask('default', ['watch']);
