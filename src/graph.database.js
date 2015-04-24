@@ -29,8 +29,8 @@ Graph['Database'] = function(options){
     /*
   * CRUD methods
   */  
-    this.add = function(obj){
-        return _entities.add(new Graph.Entity(obj, this));
+    this.add = function(obj, overwrite){
+        return _entities.add(new Graph.Entity(obj, this), overwrite);
     };
 
     this.query = function(filters){
@@ -49,14 +49,14 @@ Graph['Database'] = function(options){
     /*
   *  link two entities
   */
-    this.link = function(sid, tid, rel){
-        var source = _entities.filter({cid: sid}).first();
-        var target = _entities.filter({cid: tid}).first();
+    this.link = function(s, t, rel){
+        var source = s instanceof Graph.Entity ? s : _entities.filter({cid: s}).first();
+        var target = t instanceof Graph.Entity ? t : _entities.filter({cid: t}).first();
         if (!!source && !!target){
             source.link({entity: target, rel: rel, type: 'out'});
             target.link({entity: source, rel: rel, type: 'in'});
         }else{
-            throw new Error('Unable to locate entity ' + !source ? sid : tid + ' in database.');
+            throw new Error('Unable to locate entity ' + !source ? s : t + ' in database.');
         }
     };
 
@@ -75,6 +75,38 @@ Graph['Database'] = function(options){
             this.link(datasource.edges[i].source, datasource.edges[i].target, datasource.edges[i].rel);
         } 
     };
+    
+    this.ingestGraph = function(graph){
+        var self = this;
+        //get entity
+        function getEntity(g){
+            var e = {};
+            for (var i in g){
+                if (g.hasOwnProperty(i) && i !== 'edges'){
+                    e[i] = g[i];
+                }
+            }
+            
+            return self.add(e, true);
+        }
+                
+        //get edges
+        function getEdges(entity, edges){
+            for (var e in edges){
+                var edge = edges[e],
+                    other = getEntity(edge);
+                if (edge.edge.type === 'out')
+                    self.link(entity, other, edge.edge.rel);
+                else
+                    self.link(other, entity, edge.edge.rel);
+                getEdges(other, edge.edges);
+            }
+        }
+        
+        //start it off
+        getEdges(getEntity(graph), graph.edges);
+    };
+    
     this.ingest(_datasource);
 
     /*
