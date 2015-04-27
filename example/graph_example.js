@@ -6,14 +6,20 @@ var startData = {
     { name: "Tom\'s motorcycle", type: "thing", brand: "Honda"}
     ], 
   edges : [
-    { source: '6ccf636aa68475c9711fe80cc6595339ab5b093c', target: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', rel: "lives at"},
-    { source: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', target: '6ccf636aa68475c9711fe80cc6595339ab5b093c', rel: "residence of"},
-    { source: '23a8f91a975089e7ccd2229674a6dcad51fbd42f', target: '0093a56270a68bcfc2acfe8b253c81b646a2c3f2', rel: "painted"},
-    { source: '6ccf636aa68475c9711fe80cc6595339ab5b093c', target: '23a8f91a975089e7ccd2229674a6dcad51fbd42f', rel: 'knows'}  
+    { source: 'person_Tom', target: 'place_Tom\'s house', rel: "lives at"},
+    { source: 'place_Tom\'s house', target: 'person_Tom', rel: "residence of"},
+    { source: 'person_Bob', target: 'place_Tom\'s house', rel: "painted"},
+    { source: 'person_Tom', target: 'person_Bob', rel: 'knows'}  
 ]};
 
 //test construtor 
-var testDB = new Graph.Database({cache: 'testData', datasource: startData}); 
+var testDB = new Graph.Database({
+    cache: 'testData', 
+    datasource: startData, 
+    index: function(obj){
+        return obj.type + '_' + obj.name;
+    }
+}); 
 var dashboard = new Graph.Dashboard({database: testDB, container: $('#main'), layout: {
   rows: [{
     class: 'row',

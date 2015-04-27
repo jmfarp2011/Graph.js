@@ -5,6 +5,7 @@ Graph['Dashboard'] = function(options){
     if (!options.database) throw new Error('No options.database supplied.');
 
     //init private vars
+    var self = this;
     var $container = options.container;
     $container.addClass('graph_dashboard');
     var db = options.database;
@@ -31,7 +32,7 @@ Graph['Dashboard'] = function(options){
             if(_events.indexOf(e) === -1)
                 _events.push(e.replace(/^(on)/m, ''));
         }
-        component['dashboard'] = this;
+        component['dashboard'] = self;
     };
     
     var _configureLayout = function(name){
@@ -88,8 +89,15 @@ Graph['Dashboard'] = function(options){
 
         //(re)render components
         for (i = 0; i < _components.length; i++){
-            if (!!_components[i]['render'])
+            if (!!_components[i]['render']){
+                if(!!_components[i]['onbeforerender'])
+                    _components[i].onbeforerender(_entity);
+                
                 $('#' + _components[i].name).html(_components[i].render(_entity));
+                
+                if(!!_components[i]['onafterrender'])
+                    _components[i].onafterrender(_entity);
+            }
         }
     };
 
