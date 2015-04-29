@@ -53,9 +53,11 @@ describe('Graph.js Database object', function(){
             this.ds.entities[0].id = '1';
             expect(this.emptyDatabase.query().length).toBe(0);
 
+            this.ds.entities[1].id = '2';
             this.emptyDatabase.add(this.ds.entities[0]);
             expect(this.emptyDatabase.query().length).toBe(1);
 
+            this.ds.entities[2].id = '3';
             this.emptyDatabase.add(this.ds.entities[1]);
             expect(this.emptyDatabase.query().length).toBe(2);
         });
@@ -92,6 +94,44 @@ describe('Graph.js Database object', function(){
             this.emptyDatabase.ingest(ds);
 
             expect(this.emptyDatabase.query().data.length).toEqual(this.ds.entities.length);
+            expect(this.emptyDatabase.query({cid: '1'}).data[0].edges().length).toEqual(3);
+        });
+        
+        it('should ingest a graph', function(){
+            var graph = {
+                id: '1', 
+                name: "Tom", 
+                type: "person", 
+                age: "28", 
+                image: "http://img3.wikia.nocookie.net/__cb20120329233907/alcatraztv/images/2/22/2002_mugshot.jpg", 
+                edges: [{
+                    edge: {type: 'out', rel: 'knows'},
+                    id: '2', 
+                    name: "Bob", 
+                    type: "person", 
+                    image: "http://images.amcnetworks.com/blogs.amctv.com/wp-content/uploads/2010/04/Krazy-8-Mugshot-760.jpg"
+                },{
+                    edge: {type: 'out', rel: 'lives at'},
+                    id: '3', 
+                    name: "Tom\'s house", 
+                    type: "place", 
+                    location: "1234 1st St",
+                    edges: [{
+                        edge: {type: 'in', rel: 'painted'},
+                        id: '2',
+                    }]
+                },{
+                    edge: {type: 'in', rel: 'owned by'},
+                    id: '4', 
+                    name: "Tomsmotorcycle", 
+                    type: "thing", 
+                    brand: "Honda"
+                }]
+            };
+            
+            this.emptyDatabase.ingestGraph(graph);
+            
+            expect(this.emptyDatabase.query().data.length).toEqual(4);
             expect(this.emptyDatabase.query({cid: '1'}).data[0].edges().length).toEqual(3);
         });
 
@@ -171,7 +211,7 @@ describe('Graph.js Database object', function(){
         });
     });
     
-    it('should handle mass data', function(){
+/*    it('should handle mass data', function(){
         var name,
             maxLen = Math.pow(2, 16),
             maxLen = Math.pow(2, 4);
@@ -183,4 +223,5 @@ describe('Graph.js Database object', function(){
             });
         }
     });
+*/
 });

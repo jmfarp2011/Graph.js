@@ -1,0 +1,31 @@
+{
+  "name": "graph.js.example",
+  "version": "0.0.0",
+  "homepage": "https://github.com/jmfarp2011/Graph.js/example",
+  "authors": [
+    "jmfarp2011 <jamesmeador1983@gmail.com>"
+  ],
+  "description": "Example of Graph.js usage",
+  "main": "graph_example.html",
+  "keywords": [
+    "MVC",
+    "graph",
+    "framework",
+    "example",
+    "test"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "graph.js": "../",
+    "bootstrap": "~3.3.4",
+    "d3": "~3.5.5",
+    "icanhazjs": "~0.10.3"
+  }
+}
