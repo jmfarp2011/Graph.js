@@ -103,12 +103,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-karma');
 
     grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
-    grunt.registerTask('debug', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint']);
+    grunt.registerTask('build', ['concat', 'wrap', 'jsbeautifier:beautify', 'uglify']);
     grunt.registerTask('test', ['concat', 'wrap', 'jsbeautifier:beautify', 'jshint', 'jasmine']);
     grunt.registerTask('default', ['watch']);
 
